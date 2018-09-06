@@ -16,7 +16,7 @@ PUNCT = {
     '.', ',', '-', '--', ';', ':',  # want to keep `!` and `?` because these are semantic
     "``", "'", '`', '""', "''",
     '...',  '-lrb-', '-rrb-'
-    }
+}
 
 EPS = 1e-45
 
@@ -114,9 +114,8 @@ def main(args):
         print()
 
     accuracy = model.accuracy(dev_labels, predicted)
-    print('Accuracy:')
-    print('label  acc')
-    print('\n'.join(f'  {label}    {100*acc:.2f}' for label, acc in enumerate(accuracy)))
+    print('label  accuracy')
+    print('\n'.join(f'  {label}      {100*acc:.2f}' for label, acc in enumerate(accuracy)))
 
     confusion_matrix(dev_labels, predicted)
 
