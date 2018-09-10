@@ -202,5 +202,4 @@ label  accuracy
 
 ## Confusion matrix
 We can plot confusion matrices for the classes:
-
 ![confusion](https://github.com/daandouwe/naive-bayes/tree/master/image/confusion-classes.png)
