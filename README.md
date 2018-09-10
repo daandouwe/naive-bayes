@@ -1,5 +1,5 @@
 # Naive bayes text classifier
-Text classification with a naive Bayes classifier.
+Text classification with naive Bayes.
 
 ## Setup
 To get the movie-reviews data, type:
