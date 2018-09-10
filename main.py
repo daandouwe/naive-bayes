@@ -5,20 +5,10 @@ import string
 from collections import Counter
 
 import numpy as np
-from nltk.corpus import stopwords
-from sklearn.metrics import precision_score
 
+from model import NaiveBayesClassifier
 from plot import confusion_matrix
-
-STOP_WORDS = set(stopwords.words('english'))
-
-PUNCT = {
-    '.', ',', '-', '--', ';', ':',  # want to keep `!` and `?` because these are semantic
-    "``", "'", '`', '""', "''",
-    '...',  '-lrb-', '-rrb-'
-}
-
-EPS = 1e-45
+from utils import STOP_WORDS, PUNCT
 
 
 def get_data(path, remove_stopwords=False, remove_punct=False):
@@ -36,67 +26,24 @@ def get_data(path, remove_stopwords=False, remove_punct=False):
     return data
 
 
-
-class NaiveBayesClassifier:
-    def __init__(self):
-        pass
-
-    def __call__(self, words):
-        assert isinstance(words, list)
-        logprobs = dict((label, self.class_probs[label]) for label in self.classes)
-        for word in words:
-            for label in self.classes:
-                prob = self.prob(word, label)
-                logprobs[label] += np.log(prob)
-        return logprobs
-
-    def inference(self, data):
-        self.classes = sorted(set(label for label, _ in data))
-        self.num_classes = len(self.classes)
-
-        # Estimate class p(c).
-        class_counts = Counter(label for label, _ in data)
-        total = sum(class_counts.values())
-        self.class_probs = dict((label, count / total) for label, count in class_counts.items())
-
-        # Estimate p(x|c)
-        class_sentences = dict((label, Counter()) for label in self.classes)
-        for label, sentence in data:
-            class_sentences[label].update(sentence)
-        self.conditional_probs = dict((label, dict()) for label in self.classes)
-        for label in self.classes:
-            word_counts = class_sentences[label]
-            total = sum(word_counts.values())
-            for word, count in word_counts.items():
-                self.conditional_probs[label][word] = count / total
-
-    def predict(self, words):
-        logprobs = self(words)
-        label, logprob = Counter(logprobs).most_common()[0]
-        return label, logprob
-
-    def prob(self, word, label):
-        assert label in self.classes, f'unknown class label {label}'
-        cond_prob = self.conditional_probs[label].get(word, EPS)
-        return cond_prob
-
-    def accuracy(self, pred, gold):
-        return precision_score(gold, pred, average=None)
-
-    def top(self, n=10):
-        tops = dict()
-        for label in self.classes:
-            top = Counter(self.conditional_probs[label]).most_common(n)
-            tops[label] = top
-        return tops
-
 def main(args):
     train_data = get_data(os.path.join(args.data, 'train.txt'),
-                          remove_stopwords=args.no_stop, remove_punct=args.no_punct)
+                          remove_stopwords=args.no_stop,
+                          remove_punct=args.no_punct)
     dev_data = get_data(os.path.join(args.data, 'dev.txt'),
-                          remove_stopwords=args.no_stop, remove_punct=args.no_punct)
+                          remove_stopwords=args.no_stop,
+                          remove_punct=args.no_punct)
     test_data = get_data(os.path.join(args.data, 'test.txt'),
-                          remove_stopwords=args.no_stop, remove_punct=args.no_punct)
+                          remove_stopwords=args.no_stop,
+                          remove_punct=args.no_punct)
+
+    all_categories = sum([line for _, line in train_data], [])
+    remove = Counter(all_categories).most_common(args.remove)
+    remove, _ = zip(*remove)
+    train_data = [
+        (label, [word for word in line if word not in remove])
+            for label, line in train_data]
+    print(f'Removed from data: {remove}')
 
     model = NaiveBayesClassifier()
     model.inference(train_data)
@@ -125,6 +72,7 @@ if __name__ == '__main__':
     parser.add_argument('--data', type=str, default='data/binary')
     parser.add_argument('--no-stop', action='store_true')
     parser.add_argument('--no-punct', action='store_true')
+    parser.add_argument('--remove', type=int, default=5, help='remove top n most frequent words in both cospora')
     parser.add_argument('-n', '--num-lines', type=int, default=30)
     args = parser.parse_args()
 

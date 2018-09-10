@@ -3,7 +3,7 @@ import matplotlib.pylab as plt
 import matplotlib.ticker as ticker
 
 
-def confusion_matrix(gold, pred, out='confusion.pdf'):
+def confusion_matrix(gold, pred, out='image/confusion.png'):
 
     all_categories = sorted(list(set(gold)))
     n_categories = len(all_categories)
