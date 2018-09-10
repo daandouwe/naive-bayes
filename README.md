@@ -203,3 +203,7 @@ label  accuracy
 ## Confusion matrix
 We can plot confusion matrices for the classes:
 ![confusion](https://github.com/daandouwe/naive-bayes/tree/master/image/confusion-classes.png)
+
+## TODO
+- [ ] Maybe we can do something a little more fancy, see [Baselines and Bigrams: Simple, Good Sentiment and Topic Classification](https://nlp.stanford.edu/pubs/sidaw12_simple_sentiment.pdf) and [this repository](https://github.com/mesnilgr/nbsvm) for ideas.
+- [ ] Bayesian formulation with Gibbs sampling, see [Gibbs sampling for the uninitiated](https://drum.lib.umd.edu/bitstream/handle/1903/10058/gsfu.pdf?sequence=3&isAllowed=y).
