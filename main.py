@@ -37,13 +37,27 @@ def main(args):
                           remove_stopwords=args.no_stop,
                           remove_punct=args.no_punct)
 
-    all_categories = sum([line for _, line in train_data], [])
-    remove = Counter(all_categories).most_common(args.remove)
-    remove, _ = zip(*remove)
-    train_data = [
-        (label, [word for word in line if word not in remove])
-            for label, line in train_data]
+    classes = sorted(set(int(label) for label, _ in train_data))
+
+    classes_data = {i: [] for i in range(len(classes))}
+    for label, data in train_data:
+        classes_data[int(label)].extend(data)
+    top_words = dict()
+    for i in range(len(classes)):
+        top_words[i] = Counter(classes_data[i]).most_common(args.remove)
+    for i, most_common in top_words.items():
+        top_words[i] = set(word for word, _ in most_common)
+    remove = set(top_words[0])
+    for tops in top_words.values():
+        remove = remove & tops
     print(f'Removed from data: {remove}')
+
+    # all_categories = sum([line for _, line in train_data], [])
+    # remove = Counter(all_categories).most_common(args.remove)
+    # remove, _ = zip(*remove)
+    # train_data = [
+    #     (label, [word for word in line if word not in remove])
+    #         for label, line in train_data]
 
     model = NaiveBayesClassifier()
     model.inference(train_data)
