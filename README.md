@@ -202,7 +202,7 @@ label  accuracy
 
 ## Confusion matrix
 We can plot confusion matrices for the classes:
-![confusion-matrix](https://github.com/daandouwe/naive-bayes/tree/master/image/confusion-classes.png)
+![confusion-matrix](https://raw.githubusercontent.com/daandouwe/naive-bayes/master/image/confusion-classes.png)
 
 ## TODO
 - [ ] Maybe we can do something a little more fancy, see [Baselines and Bigrams: Simple, Good Sentiment and Topic Classification](https://nlp.stanford.edu/pubs/sidaw12_simple_sentiment.pdf) and [this repository](https://github.com/mesnilgr/nbsvm) for ideas.
