@@ -4,7 +4,7 @@ Text classification with naive Bayes.
 ## Setup
 To get the movie-reviews data, type:
 ```bash
-cd
+cd data
 ./get-data.
 ```
 
@@ -27,7 +27,7 @@ You can add the following arguments:
 ```
 
 ## Results
-Surprisingly, accuracy is best when both stop-words and punctuation are left as is. We show with removing
+Surprisingly, accuracy is best when both stop-words and punctuation are left as is. We illustrate below with cleaned text, however.
 
 On the binarized movie reviews, the results are (with some highest conditional probabilities):
 ```
