@@ -21,9 +21,9 @@ For the binarised reviews, use:
 
 You can add the following arguments:
 ```bash
---remove 10  # Remove 10 most frequent that are in all classes.
---no-punct   # Remove punctuation (except ! and ?) from data.
---no-stop    # Remove stop-words from data.
+--remove 10   # Remove 10 most frequent words that are in all classes.
+--no-punct    # Remove punctuation (except ! and ?) from data.
+--no-stop     # Remove stop-words from data.
 ```
 
 ## Results
