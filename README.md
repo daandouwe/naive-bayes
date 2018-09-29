@@ -5,7 +5,7 @@ Text classification with naive Bayes.
 To get the movie-reviews data, type:
 ```bash
 cd data
-./get-data.
+./get-data.sh
 ```
 
 ## Usage
