@@ -12,9 +12,9 @@ def main(args):
             if int(label) == 2:
                 continue
             elif int(label) < 2:
-                lines.append(f'0 ||| {sentence}')
+                lines.append(f'0 ||| {sentence.strip()}')
             else:
-                lines.append(f'1 ||| {sentence}')
+                lines.append(f'1 ||| {sentence.strip()}')
     outdir = os.path.expanduser(args.outdir)
     with open(outdir, 'w') as f:
         print('\n'.join(lines), file=f)
